@@ -1,53 +1,53 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Student</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Create Student</h1>
+@section('title', 'Create Student')
 
-@if($errors->any())
-    <div style="color:red;">
-        <h3>Please fix the following errors:</h3>
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@section('content')
 
-<form action="/students" method="POST">
-    @csrf
+    <h1>Create Student</h1>
 
-    <label>Name</label>
-    <input type="text" name="name" value="{{ old('name') }}">
-    <br><br>
+    @if($errors->any())
+        <div style="color:red;">
+            <h3>Please fix the following errors:</h3>
 
-    <label>Email</label>
-    <input type="email" name="email" value="{{ old('email') }}">
-    <br><br>
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <label>Phone</label>
-    <input type="text" name="phone" value="{{ old('phone') }}">
-    <br><br>
+    <form action="{{ route('students.store') }}" method="POST">
+        @csrf
 
-    <label>Address</label>
-    <textarea name="address">{{ old('address') }}</textarea>
-    <br><br>
+        <label>Name</label>
+        <input type="text" name="name" value="{{ old('name') }}">
+        <br><br>
 
-    <label>Date of Birth</label>
-    <input type="date" name="date_of_birth"
-           value="{{ old('date_of_birth') }}">
-    <br><br>
+        <label>Email</label>
+        <input type="email" name="email" value="{{ old('email') }}">
+        <br><br>
 
-    <button type="submit">Create Student</button>
-</form>
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ old('phone') }}">
+        <br><br>
 
-<br>
-<a href="/students">Back to Students</a>
+        <label>Address</label>
+        <textarea name="address">{{ old('address') }}</textarea>
+        <br><br>
 
-</body>
-</html>
+        <label>Date of Birth</label>
+        <input type="date" name="date_of_birth"
+               value="{{ old('date_of_birth') }}">
+        <br><br>
+
+        <button type="submit">Create Student</button>
+    </form>
+
+    <br>
+
+    <a href="{{ route('students.index') }}">Back to Students</a>
+
+@endsection

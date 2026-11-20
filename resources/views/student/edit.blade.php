@@ -1,56 +1,57 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Student</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Edit Student</h1>
+@section('title', 'Edit Student')
 
-@if($errors->any())
-    <div style="color:red;">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@section('content')
 
-<form action="/students/{{ $student->id }}" method="POST">
-    @csrf
-    @method('PUT')
+    <h1>Edit Student</h1>
 
-    <label>Name</label>
-    <input type="text" name="name"
-           value="{{ old('name', $student->name) }}">
-    <br><br>
+    @if($errors->any())
+        <div style="color:red;">
+            <h3>Please fix the following errors:</h3>
 
-    <label>Email</label>
-    <input type="email" name="email"
-           value="{{ old('email', $student->email) }}">
-    <br><br>
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <label>Phone</label>
-    <input type="text" name="phone"
-           value="{{ old('phone', $student->phone) }}">
-    <br><br>
+    <form action="{{ route('students.update', $student->id) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    <label>Address</label>
-    <textarea name="address">{{ old('address', $student->address) }}</textarea>
-    <br><br>
+        <label>Name</label>
+        <input type="text" name="name"
+               value="{{ old('name', $student->name) }}">
+        <br><br>
 
-    <label>Date of Birth</label>
-    <input type="date" name="date_of_birth"
-           value="{{ old('date_of_birth', $student->date_of_birth) }}">
-    <br><br>
+        <label>Email</label>
+        <input type="email" name="email"
+               value="{{ old('email', $student->email) }}">
+        <br><br>
 
-    <button type="submit">Update Student</button>
-</form>
+        <label>Phone</label>
+        <input type="text" name="phone"
+               value="{{ old('phone', $student->phone) }}">
+        <br><br>
 
-<br>
-<a href="/students">Back to Students</a>
+        <label>Address</label>
+        <textarea name="address">{{ old('address', $student->address) }}</textarea>
+        <br><br>
 
-</body>
-</html>
+        <label>Date of Birth</label>
+        <input type="date" name="date_of_birth"
+               value="{{ old('date_of_birth', $student->date_of_birth?->format('Y-m-d')) }}">
+        <br><br>
+
+        <button type="submit">Update Student</button>
+    </form>
+
+    <br>
+
+    <a href="{{ route('students.index') }}">Back to Students</a>
+
+@endsection

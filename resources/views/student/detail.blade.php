@@ -1,28 +1,32 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Student Details</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Student Details</h1>
+@section('title', 'Student Details')
 
-@if(session('success'))
-    <p style="color:green;">{{ session('success') }}</p>
-@endif
+@section('content')
 
-<p><strong>ID:</strong> {{ $student->id }}</p>
-<p><strong>Name:</strong> {{ $student->name }}</p>
-<p><strong>Email:</strong> {{ $student->email }}</p>
-<p><strong>Phone:</strong> {{ $student->phone }}</p>
-<p><strong>Address:</strong> {{ $student->address }}</p>
-<p><strong>Date of Birth:</strong> {{ $student->date_of_birth }}</p>
+    <h1>Student Details</h1>
 
-<a href="/students/{{ $student->id }}/edit">Edit Student</a>
+    @if(session('success'))
+        <x-alert>
+            {{ session('success') }}
+        </x-alert>
+    @endif
 
-<br><br>
-<a href="/students">Back to Students</a>
+    <p><strong>ID:</strong> {{ $student->id }}</p>
+    <p><strong>Name:</strong> {{ $student->name }}</p>
+    <p><strong>Email:</strong> {{ $student->email }}</p>
+    <p><strong>Phone:</strong> {{ $student->phone }}</p>
+    <p><strong>Address:</strong> {{ $student->address }}</p>
+    <p><strong>Date of Birth:</strong> {{ $student->date_of_birth?->format('Y-m-d') }}</p>
+    <p><strong>Age:</strong> {{ $student->age }} years</p>
 
-</body>
-</html>
+    <br>
+
+    <a href="{{ route('students.edit', $student->id) }}">Edit Student</a>
+
+    <br><br>
+
+    <a href="{{ route('students.index') }}">Back to Students</a>
+
+@endsection

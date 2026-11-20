@@ -1,21 +1,20 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Student List</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Student List')
+
+@section('content')
 
     <h1>Student List</h1>
 
-    <a href="/student/create">Add New Student</a>
+    <a href="{{ route('students.create') }}">Add New Student</a>
 
     <br><br>
 
     @if(session('success'))
-        <p style="color: green;">
-            {{ session('success') }}
-        </p>
+    <x-alert>
+        {{ session('success') }}
+    </x-alert>
     @endif
 
     <table border="1" cellpadding="10">
@@ -42,19 +41,19 @@
                     <td>{{ $student->date_of_birth }}</td>
 
                     <td>
-                        <a href="/students/{{ $student->id }}">
+                        <a href="{{ route('students.show', $student->id) }}">
                             View
                         </a>
 
                         |
 
-                        <a href="/students/{{ $student->id }}/edit">
+                        <a href="{{ route('students.edit', $student->id) }}">
                             Edit
                         </a>
 
                         |
 
-                        <form action="/students/{{ $student->id }}"
+                        <form action="{{ route('students.destroy', $student->id) }}"
                               method="POST"
                               style="display:inline;">
 
@@ -78,5 +77,4 @@
         </tbody>
     </table>
 
-</body>
-</html>
+@endsection

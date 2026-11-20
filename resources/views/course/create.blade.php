@@ -1,63 +1,62 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Course</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Create Course</h1>
+@section('title', 'Create Course')
 
-@if($errors->any())
-    <div style="color:red;">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+@section('content')
 
-<form action="/courses" method="POST">
-    @csrf
+    <h1>Create Course</h1>
 
-    <label>Course Name</label>
-    <input type="text" name="name" value="{{ old('name') }}">
-    <br><br>
+    @if($errors->any())
+        <div style="color:red;">
+            <h3>Please fix the following errors:</h3>
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <label>Description</label>
-    <textarea name="description">{{ old('description') }}</textarea>
-    <br><br>
+    <form action="{{ route('courses.store') }}" method="POST">
+        @csrf
 
-    <label>Duration (Weeks)</label>
-    <input type="number" name="duration" value="{{ old('duration') }}">
-    <br><br>
+        <label>Course Name</label>
+        <input type="text" name="name" value="{{ old('name') }}">
+        <br><br>
 
-    <label>Fee</label>
-    <input type="number" step="0.01" name="fee" value="{{ old('fee') }}">
-    <br><br>
+        <label>Description</label>
+        <textarea name="description">{{ old('description') }}</textarea>
+        <br><br>
 
-    <label>Difficulty</label>
-    <select name="difficulty">
-        <option value="">Select Difficulty</option>
-        <option value="Easy">Easy</option>
-        <option value="Medium">Medium</option>
-        <option value="Hard">Hard</option>
-    </select>
-    <br><br>
+        <label>Duration (Weeks)</label>
+        <input type="number" name="duration" value="{{ old('duration') }}">
+        <br><br>
 
-    <label>Active</label>
-    <select name="is_active">
-        <option value="1">Yes</option>
-        <option value="0">No</option>
-    </select>
-    <br><br>
+        <label>Fee</label>
+        <input type="number" step="0.01" name="fee" value="{{ old('fee') }}">
+        <br><br>
 
-    <button type="submit">Create Course</button>
-</form>
+        <label>Difficulty</label>
+        <select name="difficulty">
+            <option value="">Select Difficulty</option>
+            <option value="Easy" {{ old('difficulty') == 'Easy' ? 'selected' : '' }}>Easy</option>
+            <option value="Medium" {{ old('difficulty') == 'Medium' ? 'selected' : '' }}>Medium</option>
+            <option value="Hard" {{ old('difficulty') == 'Hard' ? 'selected' : '' }}>Hard</option>
+        </select>
+        <br><br>
 
-<br>
-<a href="/courses">Back to Courses</a>
+        <label>Active</label>
+        <select name="is_active">
+            <option value="1" {{ old('is_active', '1') == '1' ? 'selected' : '' }}>Yes</option>
+            <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>No</option>
+        </select>
+        <br><br>
 
-</body>
-</html>
+        <button type="submit">Create Course</button>
+    </form>
+
+    <br>
+    <a href="{{ route('courses.index') }}">Back to Courses</a>
+
+@endsection

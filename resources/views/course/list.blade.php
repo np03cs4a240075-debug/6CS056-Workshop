@@ -1,69 +1,70 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Course List</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h1>Courses</h1>
+@section('title', 'Course List')
 
-@if(session('success'))
-    <p style="color:green;">{{ session('success') }}</p>
-@endif
+@section('content')
 
-<a href="/courses/create">Create Course</a>
+    <h1>Courses</h1>
 
-<br><br>
+    @if(session('success'))
+    <p style="color:green;">
+        {{ session('success') }}
+    </p>
+    @endif
 
-<table border="1" cellpadding="10">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Duration</th>
-            <th>Fee</th>
-            <th>Difficulty</th>
-            <th>Active</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+    <a href="{{ route('courses.create') }}">Create Course</a>
 
-    <tbody>
-        @forelse($courses as $course)
+    <br><br>
+
+    <table border="1" cellpadding="10">
+        <thead>
             <tr>
-                <td>{{ $course->id }}</td>
-                <td>{{ $course->name }}</td>
-                <td>{{ $course->duration }} weeks</td>
-                <td>{{ $course->fee }}</td>
-                <td>{{ $course->difficulty }}</td>
-                <td>{{ $course->is_active ? 'Yes' : 'No' }}</td>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Duration</th>
+                <th>Fee</th>
+                <th>Difficulty</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
 
-                <td>
-                    <a href="/courses/{{ $course->id }}">View</a>
+        <tbody>
+            @forelse($courses as $course)
+                <tr>
+                    <td>{{ $course->id }}</td>
+                    <td>{{ $course->name }}</td>
+                    <td>{{ $course->duration }} weeks</td>
+                    <td>{{ $course->fee }}</td>
+                    <td>{{ $course->difficulty }}</td>
+                    <td>{{ $course->is_active ? 'Yes' : 'No' }}</td>
 
-                    <a href="/courses/{{ $course->id }}/edit">Edit</a>
+                    <td>
+                        <a href="{{ route('courses.show', $course->id) }}">View</a>
+                        |
+                        <a href="{{ route('courses.edit', $course->id) }}">Edit</a>
+                        |
 
-                    <form action="/courses/{{ $course->id }}"
-                          method="POST"
-                          style="display:inline;">
-                        @csrf
-                        @method('DELETE')
+                        <form action="{{ route('courses.destroy', $course->id) }}"
+                              method="POST"
+                              style="display:inline;">
+                            @csrf
+                            @method('DELETE')
 
-                        <button type="submit"
+                            <button type="submit"
                                 onclick="return confirm('Delete this course?')">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="7">No courses found.</td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7">No courses found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 
-</body>
-</html>
+@endsection
